@@ -3,8 +3,10 @@ package sk.spse.hresko.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -16,12 +18,17 @@ public class MainActivity extends AppCompatActivity {
 
     private int quantity = 0;
     private CheckBox whippingCream;
+    private CheckBox chocolate;
+    private EditText customersName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        whippingCream=(CheckBox)findViewById(R.id.checkbox_whipping_cream);
+        whippingCream = (CheckBox) findViewById(R.id.checkbox_whipping_cream);
+        chocolate = (CheckBox) findViewById(R.id.checkbox_chocolate);
+        customersName=(EditText) findViewById(R.id.customersName);
+
     }
 
     /**
@@ -29,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitOrder(View view) {
 
-        displayMessage(createSummary("Sebastian Hresko", calculatePrice(5), checkWhipping(whippingCream)));
+        displayMessage(createSummary(getCustomersInfo(customersName), calculatePrice(5), checkBoxes(whippingCream), checkBoxes(chocolate)));
 
     }
 
@@ -40,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
         return quantity * pricePerCup;
     }
 
-    private String createSummary(String name, int price, boolean whippingCream) {
+    private String createSummary(String name, int price, boolean whippingCream, boolean chocolate) {
         return "Name: " + name + "\n"
                 + "Quantity: " + quantity + "\n"
-                + "Whipping Cream: " + whippingCream+"\n"
+                + "Whipping Cream: " + whippingCream + "\n"
+                + "Chocolate: " + chocolate + "\n"
                 + "Total price: " + price + "\n"
                 + "Thank you !"
                 ;
@@ -79,17 +87,23 @@ public class MainActivity extends AppCompatActivity {
      */
     private void displayMessage(String message) {
         TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-       orderSummaryTextView.setText(message);
+        orderSummaryTextView.setText(message);
     }
 
-    public boolean checkWhipping(View view){
+    public boolean checkBoxes(View view) {
 
-        if(((CheckBox)view).isChecked()){
+        if (((CheckBox) view).isChecked()) {
             return true;
 
-        }
-        else{
-        return false;
+        } else {
+            return false;
         }
     }
+
+    public String getCustomersInfo(View view){
+       String info = ((EditText)view).getText().toString();
+
+        return info;
+    }
+
 }
