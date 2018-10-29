@@ -4,5 +4,15 @@
     <string name="quantity">Quantity:</string>
     <string name="price">Price</string>
     <string name="toppings">Toppings</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="whipping_cream">Whipping Cream</string>
+    <string name="name">Name</string>
+    <string name="sendEmailVia">Send email via:</string>
+    <string name="orderSummaryFor">Order summary for </string>
+    <string name="orderLimit1">You cannot order more then 100 coffees!</string>
+    <string name="orderLimit2">You can order at least 1 coffee!</string>
+    <string name="totalPrice">Total price: </string>
+    <string name="thanks">Thank You!</string>
+
 
 </resources>

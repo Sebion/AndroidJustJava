@@ -1,5 +1,7 @@
 package sk.spse.hresko.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -16,7 +19,7 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private int quantity = 0;
+    private int quantity = 1;
     private CheckBox whippingCream;
     private CheckBox chocolate;
     private EditText customersName;
@@ -35,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-
-        displayMessage(createSummary(getCustomersInfo(customersName), calculatePrice(5), checkBoxes(whippingCream), checkBoxes(chocolate)));
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto: hresko@spse-po.sk"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.orderSummaryFor)+" "+getCustomersInfo(customersName));
+        intent.putExtra(Intent.EXTRA_TEXT, createSummary( calculatePrice(5), checkBoxes(whippingCream), checkBoxes(chocolate)));
+        startActivity(Intent.createChooser(intent, getString(R.string.sendEmailVia)));
 
     }
 
@@ -44,16 +50,25 @@ public class MainActivity extends AppCompatActivity {
      * Calculates the price of the order.
      */
     private int calculatePrice(int pricePerCup) {
-        return quantity * pricePerCup;
+       int toppings = 0;
+       int pricePerWhippingCream=1;
+       int pricePerChocolate=2;
+        if(checkBoxes(whippingCream)){
+         toppings=toppings+quantity*pricePerWhippingCream;
+        }
+         if(checkBoxes(chocolate)){
+            toppings=toppings+quantity*pricePerChocolate;
+        }
+        return quantity * pricePerCup + toppings;
     }
 
-    private String createSummary(String name, int price, boolean whippingCream, boolean chocolate) {
-        return "Name: " + name + "\n"
-                + "Quantity: " + quantity + "\n"
-                + "Whipping Cream: " + whippingCream + "\n"
-                + "Chocolate: " + chocolate + "\n"
-                + "Total price: " + price + "\n"
-                + "Thank you !"
+    private String createSummary( int price, boolean whippingCream, boolean chocolate) {
+        return
+                 getString(R.string.quantity)+" " + quantity + "\n"
+                + getString(R.string.whipping_cream)+": " + whippingCream + "\n"
+                + getString(R.string.chocolate)+": "+ chocolate + "\n"
+                + getString(R.string.totalPrice)+" " + price +"€" +"\n"
+                + getString(R.string.thanks)
                 ;
     }
 
@@ -71,13 +86,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void increase(View view) {
+
         quantity++;
+        if(quantity==101){
+            Toast.makeText(MainActivity.this,getString(R.string.orderLimit1),Toast.LENGTH_LONG).show();
+            quantity=100;
+        }
+
         display(quantity);
+
     }
 
     public void decrease(View view) {
-        if (quantity > 0) {
+
             quantity--;
+
+        if(quantity==0){
+            Toast.makeText(MainActivity.this,getString(R.string.orderLimit2),Toast.LENGTH_LONG).show();
+            quantity=1;
         }
         display(quantity);
     }
@@ -85,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method displays the given text on the screen.
      */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
-    }
 
     public boolean checkBoxes(View view) {
 

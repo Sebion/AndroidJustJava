@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Just Java</string>
+    <string name="order">Objednať</string>
+    <string name="quantity">Počet káv:</string>
+    <string name="price">Cena</string>
+    <string name="toppings">Polevy</string>
+    <string name="chocolate">Čokoláda</string>
+    <string name="whipping_cream">Šľahačka</string>
+    <string name="name">Meno</string>
+    <string name="sendEmailVia">Poslať mail cez:</string>
+    <string name="orderSummaryFor">Zhrnutie objednávky</string>
+    <string name="orderLimit1">Nemôžeš si objednať viac než 100 káv.</string>
+    <string name="orderLimit2">Môžeš si objednať najmenej 1 kávu.</string>
+    <string name="totalPrice">Celková cena:</string>
+    <string name="thanks">Ďakujeme!</string>
+</resources>
